@@ -1,0 +1,30 @@
+# Env
+.env
+.env.local
+
+# Data
+/data/
+/uploads/
+
+# Misc
+.DS_Store
+.agent
+.opencode
+.antigravity
+.gemini
+
+# Build
+/api
+
+# Tests
+cookies.txt
+/tests
+
+# Git
+.gitignore
+.git
+
+# Docs
+README.md
+docs/
+*.pdf
