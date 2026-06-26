@@ -15,3 +15,7 @@
 
 # Build
 /api
+
+# Tests
+cookies.txt
+/test/

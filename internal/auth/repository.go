@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// Contract
+// Repository - Contract
 type Repository interface {
 	Create(ctx context.Context, user *User) error
 	FindByEmail(ctx context.Context, email string) (*User, error)
@@ -22,7 +22,7 @@ type sqliteRepository struct {
 	db *sql.DB
 }
 
-// New instance of SQLite repository
+// NewRepository - New instance of SQLite repository
 func NewRepository(db *sql.DB) Repository {
 	return &sqliteRepository{
 		db: db,
@@ -47,7 +47,7 @@ func (r *sqliteRepository) Create(ctx context.Context, user *User) error {
 		user.CreatedAt,
 	).Scan(&user.ID)
 	if err != nil {
-		return fmt.Errorf("Error on create new user: %w", err)
+		return fmt.Errorf("error on create new user: %w", err)
 	}
 
 	return nil
@@ -75,7 +75,7 @@ func (r *sqliteRepository) FindByEmail(ctx context.Context, email string) (*User
 			return nil, fmt.Errorf("User not found: %w", err)
 		}
 		// Faltava esse retorno para tratar outros erros de banco!
-		return nil, fmt.Errorf("Error on fetch user by email: %w", err)
+		return nil, fmt.Errorf("error on fetch user by email: %w", err)
 	}
 
 	return user, nil
@@ -86,12 +86,12 @@ func (r *sqliteRepository) UpdateAvatar(ctx context.Context, id uint, avatarURL 
 
 	result, err := r.db.ExecContext(ctx, query, avatarURL, id)
 	if err != nil {
-		return fmt.Errorf("Error on update avatar: %w", err)
+		return fmt.Errorf("error on update avatar: %w", err)
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("Error getting rows affected: %w", err)
+		return fmt.Errorf("error getting rows affected: %w", err)
 	}
 	if rows == 0 {
 		return fmt.Errorf("User not found or deleted")
@@ -105,12 +105,12 @@ func (r *sqliteRepository) UpdateUser(ctx context.Context, user *User) error {
 
 	result, err := r.db.ExecContext(ctx, query, user.Name, user.Email, user.ID)
 	if err != nil {
-		return fmt.Errorf("Error on update user: %w", err)
+		return fmt.Errorf("error on update user: %w", err)
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("Error getting rows affected: %w", err)
+		return fmt.Errorf("error getting rows affected: %w", err)
 	}
 	if rows == 0 {
 		return fmt.Errorf("User not found or deleted")
@@ -125,12 +125,12 @@ func (r *sqliteRepository) SoftDelete(ctx context.Context, id uint) error {
 
 	result, err := r.db.ExecContext(ctx, query, now, id)
 	if err != nil {
-		return fmt.Errorf("Error on soft delete user: %w", err)
+		return fmt.Errorf("error on soft delete user: %w", err)
 	}
 
 	rows, err := result.RowsAffected()
 	if err != nil {
-		return fmt.Errorf("Error getting rows affected: %w", err)
+		return fmt.Errorf("error getting rows affected: %w", err)
 	}
 	if rows == 0 {
 		return fmt.Errorf("User not found or already deleted")

@@ -3,9 +3,25 @@ package posts
 import "time"
 
 type Post struct {
-	id          uint
-	Title       string
-	Description string
-	ImageURL    string
-	CreatedAt   time.Time
+	Id        uint
+	UserId    uint
+	Title     string
+	Content   string
+	ImageURL  string
+	CreatedAt time.Time
+	UpdatedAt time.Time
+}
+
+type PostRequest struct {
+	Title   string
+	Content string
+}
+
+type PostResponse struct {
+	Id        uint
+	UserId    uint
+	Title     string
+	Content   string
+	ImageURL  string
+	CreatedAt time.Time
 }

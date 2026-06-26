@@ -10,9 +10,9 @@ import (
 )
 
 // O ideal é que essa chave venha de uma variável de ambiente, ex: os.Getenv("JWT_SECRET")
-var jwtSecretKey = []byte("sua_chave_super_secreta_aqui_mudar_em_prod") 
+var jwtSecretKey = []byte("sua_chave_super_secreta_aqui_mudar_em_prod")
 
-// Contract
+// Service - Contract
 type Service interface {
 	Register(ctx context.Context, req RegisterRequest) (UserResponse, error)
 	Login(ctx context.Context, req LoginRequest) (string, error)
@@ -26,7 +26,7 @@ type authService struct {
 	repo Repository
 }
 
-// Constructor
+// NewService - Constructor
 func NewService(repo Repository) Service {
 	return &authService{
 		repo: repo,
@@ -71,7 +71,7 @@ func (s *authService) Login(ctx context.Context, req LoginRequest) (string, erro
 	user, err := s.repo.FindByEmail(ctx, req.Email)
 	if err != nil {
 		// Para segurança, sempre retornamos a mesma mensagem genérica se errar email ou senha
-		return "", fmt.Errorf("credenciais inválidas") 
+		return "", fmt.Errorf("credenciais inválidas")
 	}
 
 	// 2. Comparar a senha fornecida com o hash salvo
@@ -82,7 +82,7 @@ func (s *authService) Login(ctx context.Context, req LoginRequest) (string, erro
 
 	// 3. Gerar o token JWT (JSON Web Token)
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
-		"sub": user.ID, // Subject: ID do usuário
+		"sub": user.ID,                               // Subject: ID do usuário
 		"exp": time.Now().Add(time.Hour * 24).Unix(), // Expira em 24h
 	})
 

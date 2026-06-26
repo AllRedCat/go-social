@@ -1,3 +1,4 @@
+// Package auth handles the auth module
 package auth
 
 import (
@@ -28,7 +29,7 @@ func (h *Handler) RegisterRoutes(router *gin.Engine) {
 	{
 		authGroup.POST("/register", h.Register)
 		authGroup.POST("/login", h.Login)
-		
+
 		// In a real application, these routes should be protected by a JWT middleware.
 		// For now, we are passing the ID in the URL to identify the user.
 		authGroup.POST("/avatar/:id", h.UploadAvatar)
